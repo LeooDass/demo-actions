@@ -1,0 +1,32 @@
+name: DeployerScript
+on: push
+jobs:
+  setup_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Download dependenices
+        run: npm ci
+      - name: Lint checker
+        run: npm run lint
+      - name: Test runner
+        run: npm test
+  deploy_job:
+    needs: setup_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependenices
+        run: npm ci
+      - name: Deployer
+        run: echo "Naan dhan da leo"
